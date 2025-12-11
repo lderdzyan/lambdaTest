@@ -12,13 +12,18 @@ jobs:
       lambda_list: ${{ steps.read.outputs.lambda_list }}
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
       - name: Download lambda artifacts
         uses: actions/download-artifact@v4
         with:
           name: lambda-zips
+          path: lambda-artifacts
 
       - id: read
         run: |
+          cd lambda-artifacts
           arr=$(ls *.zip | jq -R -s -c 'split("\n")[:-1]')
           echo "lambda_list=$arr" >> $GITHUB_OUTPUT
 
@@ -31,6 +36,15 @@ jobs:
         lambda: ${{ fromJson(needs.prepare.outputs.lambda_list) }}
 
     steps:
-      - name: Echo lambda name
-        run: "echo 'Processing file: ${{ matrix.lambda }}'"
+      - name: Checkout code
+        uses: actions/checkout@v5
 
+      - name: Download lambda artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: lambda-zips
+          path: lambda-artifacts
+
+      - name: Echo lambda name
+        run: |
+          echo "Processing file: ${{ matrix.lambda }}"
