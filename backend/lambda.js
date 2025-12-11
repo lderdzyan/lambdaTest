@@ -8,6 +8,6 @@ exports.handler = async (event) => {
       "Access-Control-Allow-Headers": "Content-Type",
       "Access-Control-Allow-Methods": "OPTIONS,GET,POST"
     },
-    body: JSON.stringify({ message:" infra change2" }),
+    body: JSON.stringify({ message:" infra change1" }),
   };
 };
