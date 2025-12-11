@@ -1,0 +1,33 @@
+name: Build Lambdas
+
+on:
+  push:
+    paths:
+      - 'backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    outputs:
+      lambda_list: ${{ steps.collect.outputs.lambda_list }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          npm ci
+          npm install -g serverless
+
+      - name: Build & Package
+        run: |
+          sls package
+
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: lambda-zips
+          path: .serverless/*.zip
+

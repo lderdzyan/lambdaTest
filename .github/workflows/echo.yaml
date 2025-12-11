@@ -1,0 +1,36 @@
+name: Process Lambdas
+
+on:
+  workflow_run:
+    workflows: ["Build Lambdas"]
+    types: [completed]
+
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    outputs:
+      lambda_list: ${{ steps.read.outputs.lambda_list }}
+
+    steps:
+      - name: Download lambda artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: lambda-zips
+
+      - id: read
+        run: |
+          arr=$(ls *.zip | jq -R -s -c 'split("\n")[:-1]')
+          echo "lambda_list=$arr" >> $GITHUB_OUTPUT
+
+  matrix-job:
+    needs: prepare
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        lambda: ${{ fromJson(needs.prepare.outputs.lambda_list) }}
+
+    steps:
+      - name: Echo lambda name
+        run: echo "Processing file: ${{ matrix.lambda }}"
+
