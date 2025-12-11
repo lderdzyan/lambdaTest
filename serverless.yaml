@@ -6,16 +6,13 @@ provider:
   runtime: nodejs20.x
   region: us-east-1
 
+package:
+  individually: true
+
 functions:
   chlp:
     handler: backend/chlp.handler
-    package:
-      individually: true
   lambda:
-    handler: backend/lambda.js
-    package:
-      individually: true
+    handler: backend/lambda.handler
   index:
-    handler: backend/index.js
-    package:
-      individually: true
+    handler: backend/index.handler
