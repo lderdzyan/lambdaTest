@@ -19,7 +19,7 @@ jobs:
         run: |
           cd backend
           npm install
-          npm install -g serverless
+          npm install -g serverless@3
 
       - name: Build & Package
         run: |
