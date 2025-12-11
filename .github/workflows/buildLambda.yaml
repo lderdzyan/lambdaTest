@@ -37,7 +37,7 @@ jobs:
 
       - id: collect
         run: |
-          files=$(ls .serverless/*.zip | jq -R -s -c 'split("\n")[:-1]')
+          files=$(ls .serverless/*.zip)
           echo "lambda_list=$files" >> $GITHUB_OUTPUT
 
 
