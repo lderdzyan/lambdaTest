@@ -34,6 +34,14 @@ jobs:
       - name: List .serverless folder
         run: ls -l .serverless
 
+      - name: Create artifact directory
+        run: |
+          mkdir -p dist-lambdas
+          cp .serverless/*.zip dist-lambdas/
+
+      - name: List .dist-lambda folder
+        run: ls -l dist-lambdas
+
 
       - id: collect
         run: |
@@ -46,10 +54,9 @@ jobs:
         run: |
           pwd
           ls -la
-          ls -la ${{ github.workspace }}/.serverless
 
       - name: Upload lambda artifacts
         uses: actions/upload-artifact@v4
         with:
           name: lambda-zips
-          path: ${{ github.workspace }}/.serverless
+          path: dist-lambdas
