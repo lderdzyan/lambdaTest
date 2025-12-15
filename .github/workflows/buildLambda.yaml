@@ -37,8 +37,9 @@ jobs:
 
       - id: collect
         run: |
-          files=$(ls | grep *.zip)
-          echo "lambda_list=[$files]" >> $GITHUB_OUTPUT
+          cd .serverless
+          files=$(ls *.zip | tr '\n' ' ')
+          echo "lambda_list=$files" >> $GITHUB_OUTPUT
 
 
       - name: Upload lambda artifacts
