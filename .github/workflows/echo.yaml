@@ -19,11 +19,11 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: lambda-zips
-          path: lambda-artifacts
+          path: dist-lambdas
 
       - id: read
         run: |
-          cd lambda-artifacts
+          cd dist-lambdas
           arr=$(ls *.zip | jq -R -s -c 'split("\n")[:-1]')
           echo "lambda_list=$arr" >> $GITHUB_OUTPUT
 
