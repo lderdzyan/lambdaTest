@@ -37,7 +37,7 @@ jobs:
 
       - id: collect
         run: |
-          files=$(find .serverless -name '*.zip' | tr '\n' ',' | sed 's/,$//')
+          files=$( ls | grep *.zip )
           echo "lambda_list=[$files]" >> $GITHUB_OUTPUT
 
 
